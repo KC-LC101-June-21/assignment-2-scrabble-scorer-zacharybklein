@@ -80,11 +80,11 @@ const scoringAlgorithms = [
           if (vowels.includes(word[i])) {
             score += 3 
         }
-          else if (word[i] === ' ') {
+        else if(word[i]===' '){
         }
           else {
             score += 1
-      }
+        }
     }
     return score;
 }
@@ -93,11 +93,12 @@ const scoringAlgorithms = [
     name: 'Scrabble',
     description: 'The traditional scoring algorithm.',
     scoringFunction: function (word) {
+      word = word.toLowerCase();
       let score = 0;
       for (let i = 0; i < word.length; i++){
         score += Number(newPointStructure[word[i]]);
     }
-  return score;
+    return score;
 } 
 }];
 
