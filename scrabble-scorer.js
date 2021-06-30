@@ -41,37 +41,15 @@ function initialPrompt() {
 
 
 
-let simpleScore;
-
-let vowelBonusScore;
-
-let scrabbleScore;
-
-let newPointStructure = {};
-
-function transform(object) {
-    for (let n in object) {
-    for (let i = 0; i < object[n].length; i++) {
-      newPointStructure[(object[n][i]).toLowerCase()] = n;
-  }
-  newPointStructure[' '] = 0;
-}
-};
-
-transform(oldPointStructure);
-
-
-
-
-const scoringAlgorithms = [
-{
+let simpleScore = {
     name: 'Simple Score',
     description: 'Each letter is worth 1 point.',
     scoringFunction: function(word) {
       return word.length
-  }
-}, 
-{
+}
+};
+
+let vowelBonusScore = {
     name: 'Bonus Vowels',
     description: 'Vowels are 3 pts, consonants are 1 pt.',
     scoringFunction: function(word){
@@ -82,27 +60,43 @@ const scoringAlgorithms = [
           if (vowels.includes(word[i])) {
             score = score + 3 
         }
-          else if (word[i] === ' ') {
-        }
           else {
             score = score + 1
         }
     }
     return score;
-  }
-},
-{
+}
+};
+
+let scrabbleScore = {
     name: 'Scrabble',
     description: 'The traditional scoring algorithm.',
-    scoringFunction: function (word) {
+    scoringFunction: function(word) {
       word = word.toLowerCase();
       let score = 0;
       for (let i = 0; i < word.length; i++){
         score = score + Number(newPointStructure[word[i]]);
     }
     return score;
-  } 
-}];
+}
+};
+
+let newPointStructure = {};
+
+function transform(object) {
+    for (let n in object) {
+    for (let i = 0; i < object[n].length; i++) {
+      newPointStructure[(object[n][i]).toLowerCase()] = n;
+  }
+}
+};
+
+transform(oldPointStructure);
+
+
+
+
+const scoringAlgorithms = [simpleScore.scoringFunction, vowelBonusScore.scoringFunction, scrabbleScore.scoringFunction];
 
 function scorerPrompt(word) {
   let decision = input.question(`Which scoring algorithm would you like to use?\n
@@ -110,7 +104,7 @@ function scorerPrompt(word) {
 1 - Vowel Bonus: Vowels are worth 3 points
 2 - Scrabble: Uses scrabble point system
 Enter 0, 1, or 2: `)
-  return scoringAlgorithms[decision].scoringFunction(word);
+  return scoringAlgorithms[decision](word);
 }
 
 
@@ -118,7 +112,6 @@ Enter 0, 1, or 2: `)
 function runProgram() {
   let answer = initialPrompt();
   console.log(`Score for '${answer}': ${scorerPrompt(answer)}`);
-  console.log(typeof scoringAlgorithms);
 }
 
 // Don't write any code below this line //
