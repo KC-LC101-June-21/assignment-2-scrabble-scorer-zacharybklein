@@ -61,6 +61,8 @@ function transform(object) {
 transform(oldPointStructure);
 
 
+
+
 const scoringAlgorithms = [
 {
     name: 'Simple Score',
@@ -80,7 +82,7 @@ const scoringAlgorithms = [
           if (vowels.includes(word[i])) {
             score = score + 3 
         }
-          else if (word[i]===' ') {
+          else if (word[i] === ' ') {
         }
           else {
             score = score + 1
@@ -116,6 +118,7 @@ Enter 0, 1, or 2: `)
 function runProgram() {
   let answer = initialPrompt();
   console.log(`Score for '${answer}': ${scorerPrompt(answer)}`);
+  console.log(typeof scoringAlgorithms);
 }
 
 // Don't write any code below this line //
