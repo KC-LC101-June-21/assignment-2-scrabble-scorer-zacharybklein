@@ -32,27 +32,91 @@ function oldScrabbleScorer(word) {
 // your job is to finish writing these functions and variables that we've named //
 // don't change the names or your program won't work as expected. //
 
+
 function initialPrompt() {
-   console.log("Let's play some scrabble! Enter a word:");
+    let word = input.question("Let's play some Scrabble!\n\nEnter a word to score: ");
+    return word;
 };
 
-let simpleScore;
 
-let vowelBonusScore;
+function simpleScore(word) {
+    return word.length
+};
 
-let scrabbleScore;
+function vowelBonusScore(word) {
+    word = word.toUpperCase();
+    let score = 0;
+    let vowels = ['A', 'E', 'I', 'O', 'U'];
+    let i = 0;
+      while (i < word.length) {
+        if (vowels.includes(word[i])) {
+          score = score + 3 
+        }
+        else {
+          score = score + 1
+        }
+        i++
+    }
+  return score;
+};
 
-const scoringAlgorithms = [];
+function scrabbleScore(word) {
+    word = word.toLowerCase();
+    let score = 0;
+    for (let i = 0; i < word.length; i++){
+      score = score + newPointStructure[word[i]];
+    }
+  return score;
+};
 
-function scorerPrompt() {}
 
-function transform() {};
 
-let newPointStructure;
+
+
+
+const scoringAlgorithms = [
+{
+    name: 'Simple Score',
+    description: 'Each letter is worth 1 point.',
+    scoringFunction: simpleScore
+}, 
+{
+    name: 'Bonus Vowels',
+    description: 'Vowels are 3 pts, consonants are 1 pt.',
+    scoringFunction: vowelBonusScore
+},
+{
+    name: 'Scrabble',
+    description: 'The traditional scoring algorithm.',
+    scoringFunction: scrabbleScore
+}];
+
+let newPointStructure = {};
+
+function transform(object) {
+    for (let n in object) {
+    for (let i = 0; i < object[n].length; i++) {
+      newPointStructure[object[n][i].toLowerCase()] = parseInt(n) ;
+  }
+}
+};
+
+transform(oldPointStructure);
+
+function scorerPrompt(word) {
+  let decision = input.question(`Which scoring algorithm would you like to use?\n
+  0 - Simple: One point per character
+  1 - Vowel Bonus: Vowels are worth 3 points
+  2 - Scrabble: Uses scrabble point system
+  Enter 0, 1, or 2: `)
+  return scoringAlgorithms[decision].scoringFunction(word);
+}
+
+
 
 function runProgram() {
-   initialPrompt();
-   
+  let answer = initialPrompt();
+  console.log(`Score for '${answer}': ${scorerPrompt(answer)}`);
 }
 
 // Don't write any code below this line //
