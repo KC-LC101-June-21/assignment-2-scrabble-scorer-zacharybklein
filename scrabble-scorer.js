@@ -96,7 +96,7 @@ let newPointStructure = {};
 function transform(object) {
     for (let n in object) {
     for (let i = 0; i < object[n].length; i++) {
-      newPointStructure[(object[n][i]).toLowerCase()] = n;
+      newPointStructure[object[n][i].toLowerCase()] = parseInt(n) ;
   }
 }
 };
